@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className={css.header}>
-      <Link href="/" aria-label="Home">
+      <Link href="/" aria-label="Home" className={css.logo}>
         <Image
           src="/Logo.svg"
           alt="Rental Car Logo"
