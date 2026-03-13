@@ -7,7 +7,6 @@
   background-color: #f2f4f7;
 }
 
-
 .navigation {
   list-style-type: none;
   display: flex;
@@ -28,8 +27,10 @@
   line-height: 125%;
   text-align: center;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.navigationLink:hover {
+.navigationLink:hover,
+.navigationLink.active {
   color: #0b44cd;
 }
