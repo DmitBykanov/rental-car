@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/Header";
+import { Toaster } from "react-hot-toast";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={`${manrope.variable} ${inter.variable}`}>
         <Header />
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

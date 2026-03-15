@@ -1,0 +1,117 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 268px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background-color: var(--inputs);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.favoriteBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+.heartIcon {
+  fill: none;
+  stroke: white;
+  transition:
+    stroke 250ms ease,
+    fill 250ms ease;
+}
+
+.favoriteBtn.active .heartIcon {
+  fill: var(--button);
+  stroke: var(--button);
+}
+
+.content {
+  flex-grow: 1;
+  margin-bottom: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--main);
+}
+
+.modelAccent {
+  color: var(--button);
+}
+
+.price {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--main);
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.tagsList span {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(18, 20, 23, 0.5);
+  position: relative;
+}
+
+.tagsList span:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: -7px;
+  width: 1px;
+  height: 14px;
+  background-color: rgba(18, 20, 23, 0.1);
+}
+
+.readMoreBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  background-color: var(--button);
+  color: var(--white);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background-color 250ms ease;
+}
+
+.readMoreBtn:hover {
+  background-color: var(--button-hover);
+}

@@ -9,10 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/react-datepicker": "^6.2.0",
     "axios": "^1.13.6",
+    "formik": "^2.4.9",
     "next": "16.1.6",
     "react": "19.2.3",
+    "react-datepicker": "^9.1.0",
     "react-dom": "19.2.3",
+    "react-hot-toast": "^2.6.0",
+    "react-select": "^5.10.2",
+    "yup": "^1.7.1",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
