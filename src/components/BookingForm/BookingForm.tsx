@@ -10,14 +10,16 @@ import css from "./BookingForm.module.css";
 interface BookingFormValues {
   name: string;
   email: string;
-  bookingDate: Date | null;
+  bookingDate: [Date | null, Date | null];
   comment: string;
 }
 
 const bookingSchema = Yup.object().shape({
-  name: Yup.string().min(2, "Too Short!").required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  bookingDate: Yup.date().nullable().required("Date is required"),
+  name: Yup.string().min(2, "Name is too short!").required("Name is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  bookingDate: Yup.mixed().nullable(),
   comment: Yup.string(),
 });
 
@@ -25,7 +27,7 @@ export default function BookingForm() {
   const initialValues: BookingFormValues = {
     name: "",
     email: "",
-    bookingDate: null,
+    bookingDate: [null, null],
     comment: "",
   };
 
@@ -80,9 +82,11 @@ export default function BookingForm() {
 
             <div className={css.fieldWrapper}>
               <DatePicker
-                selected={values.bookingDate}
-                onChange={(date: Date | null) =>
-                  setFieldValue("bookingDate", date)
+                selectsRange={true}
+                startDate={values.bookingDate[0]}
+                endDate={values.bookingDate[1]}
+                onChange={(dates: [Date | null, Date | null]) =>
+                  setFieldValue("bookingDate", dates)
                 }
                 placeholderText="Booking date"
                 dateFormat="dd.MM.yyyy"

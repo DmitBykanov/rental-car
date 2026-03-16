@@ -44,6 +44,7 @@
   background-color: #f7f7fb;
   border-radius: 12px;
   border: 1px solid transparent;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.25;
@@ -61,6 +62,14 @@
 .textarea {
   height: 88px;
   resize: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray);
 }
 
 .errorInput {

@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { Car } from "../types/car";
 
 const instance = axios.create({
   baseURL: "https://car-rental-api.goit.global",
@@ -13,8 +14,13 @@ interface FetchCarsParams {
   maxMileage?: string | number;
 }
 
+export interface CarsResponse {
+  cars: Car[];
+  total: number;
+}
 export const fetchBrands = async (): Promise<string[]> => {
-  const { data } = await instance.get<string[]>("/brands");
+  const { data }: AxiosResponse<string[]> =
+    await instance.get<string[]>("/brands");
   return data;
 };
 
@@ -25,8 +31,8 @@ export const fetchCars = async ({
   rentalPrice,
   minMileage,
   maxMileage,
-}: FetchCarsParams) => {
-  const { data } = await instance.get("/cars", {
+}: FetchCarsParams): Promise<CarsResponse> => {
+  const { data }: AxiosResponse<CarsResponse> = await instance.get("/cars", {
     params: {
       page,
       limit,
@@ -39,7 +45,7 @@ export const fetchCars = async ({
   return data;
 };
 
-export const fetchCarById = async (id: string) => {
-  const { data } = await instance.get(`/cars/${id}`);
+export const fetchCarById = async (id: string): Promise<Car> => {
+  const { data }: AxiosResponse<Car> = await instance.get<Car>(`/cars/${id}`);
   return data;
 };
