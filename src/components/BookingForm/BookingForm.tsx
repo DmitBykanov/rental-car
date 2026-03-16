@@ -88,6 +88,7 @@ export default function BookingForm() {
                 onChange={(dates: [Date | null, Date | null]) =>
                   setFieldValue("bookingDate", dates)
                 }
+                shouldCloseOnSelect={true}
                 placeholderText="Booking date"
                 dateFormat="dd.MM.yyyy"
                 minDate={new Date()}
