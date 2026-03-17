@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { CarsResponse, fetchCars } from "../services/api";
+import { fetchCars } from "../services/api";
 import { Car } from "../types/car";
 
 interface Filters {
