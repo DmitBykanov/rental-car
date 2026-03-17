@@ -154,7 +154,12 @@
   border: 1px solid #f44336;
 }
 
-.searchBtn {
+.btnGroup {
+  display: flex;
+  gap: 18px;
+}
+.searchBtn,
+.resetBtn {
   height: 44px;
   padding: 0 44px;
   background-color: var(--button);
@@ -164,6 +169,8 @@
   font-size: 16px;
   transition: background-color 250ms;
 }
-.searchBtn:hover {
+
+.searchBtn:hover,
+.resetBtn:hover {
   background-color: var(--button-hover);
 }
