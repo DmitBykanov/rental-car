@@ -17,7 +17,6 @@ interface CarState {
   page: number;
   isLoading: boolean;
   hasMore: boolean;
-
   setFilters: (newFilters: Partial<Filters>) => void;
   toggleFavorite: (id: string) => void;
   loadCars: (isNextPage?: boolean) => Promise<void>;
@@ -35,9 +34,7 @@ export const useCarStore = create<CarState>()(
       hasMore: true,
 
       setFilters: (newFilters) =>
-        set((state) => ({
-          filters: { ...state.filters, ...newFilters },
-        })),
+        set((state) => ({ filters: { ...state.filters, ...newFilters } })),
 
       toggleFavorite: (id) =>
         set((state) => ({
@@ -46,41 +43,28 @@ export const useCarStore = create<CarState>()(
             : [...state.favorites, id],
         })),
 
-      resetSearch: () =>
-        set({
-          cars: [],
-          page: 1,
-          hasMore: true,
-        }),
+      resetSearch: () => set({ cars: [], page: 1, hasMore: true }),
 
       loadCars: async (isNextPage = false) => {
         const { page, filters, isLoading } = get();
-
         if (isLoading) return;
-        set({ isLoading: true });
 
+        set({ isLoading: true });
         const targetPage = isNextPage ? page + 1 : 1;
 
         try {
-          const data = await fetchCars({
+          const { cars: newCars, totalPages } = await fetchCars({
             page: targetPage,
-            limit: 12,
-            brand: filters.brand || undefined,
-            rentalPrice: filters.price || undefined,
-            minMileage: filters.minMileage || undefined,
-            maxMileage: filters.maxMileage || undefined,
+            ...filters,
           });
-
-          const newCars = Array.isArray(data.cars) ? data.cars : [];
 
           set((state) => ({
             cars: isNextPage ? [...state.cars, ...newCars] : newCars,
-            page: data.page,
-            hasMore: data.page < data.totalPages,
+            page: targetPage,
+            hasMore: targetPage < totalPages,
           }));
         } catch (error) {
-          console.error("Failed to load cars:", error);
-          if (!isNextPage) set({ cars: [] });
+          console.error("API Error:", error);
         } finally {
           set({ isLoading: false });
         }
@@ -90,6 +74,6 @@ export const useCarStore = create<CarState>()(
       name: "car-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ favorites: state.favorites }),
-    },
-  ),
+    }
+  )
 );

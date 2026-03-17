@@ -8,13 +8,6 @@ import { fetchBrands } from "../../services/api";
 import { formatMileage } from "../../utils/formatMileage";
 import css from "./FiltersBar.module.css";
 
-interface FormValues {
-  brand: string;
-  price: string;
-  minMileage: string;
-  maxMileage: string;
-}
-
 const validationSchema = Yup.object().shape({
   minMileage: Yup.number().typeError("Numbers only").min(0),
   maxMileage: Yup.number()
@@ -37,10 +30,8 @@ export default function FiltersBar() {
 
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-      if (brandRef.current && !brandRef.current.contains(target))
-        setIsBrandOpen(false);
-      if (priceRef.current && !priceRef.current.contains(target))
-        setIsPriceOpen(false);
+      if (brandRef.current && !brandRef.current.contains(target)) setIsBrandOpen(false);
+      if (priceRef.current && !priceRef.current.contains(target)) setIsPriceOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -49,16 +40,9 @@ export default function FiltersBar() {
 
   const priceOptions = [30, 40, 50, 60, 70, 80, 90, 100, 110, 120];
 
-  const initialValues: FormValues = {
-    brand: filters.brand || "",
-    price: filters.price || "",
-    minMileage: filters.minMileage || "",
-    maxMileage: filters.maxMileage || "",
-  };
-
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={filters}
       validationSchema={validationSchema}
       enableReinitialize
       onSubmit={(values) => {
@@ -69,15 +53,10 @@ export default function FiltersBar() {
     >
       {({ values, setFieldValue, resetForm, errors, touched }) => {
         const handleReset = () => {
-          const emptyFilters = {
-            brand: "",
-            price: "",
-            minMileage: "",
-            maxMileage: "",
-          };
-          setFilters(emptyFilters);
+          const empty = { brand: "", price: "", minMileage: "", maxMileage: "" };
+          setFilters(empty);
           resetSearch();
-          resetForm({ values: emptyFilters });
+          resetForm({ values: empty });
           loadCars();
         };
 
@@ -92,33 +71,18 @@ export default function FiltersBar() {
                   setIsPriceOpen(false);
                 }}
               >
-                <span
-                  className={values.brand ? css.selectedText : css.placeholder}
-                >
+                <span className={values.brand ? css.selectedText : css.placeholder}>
                   {values.brand || "Choose a brand"}
                 </span>
                 <svg className={css.icon} width="16" height="16">
-                  <use
-                    href={
-                      isBrandOpen
-                        ? "/Icons.svg#chevron-Active"
-                        : "/Icons.svg#chevron-Default"
-                    }
-                  />
+                  <use href={`/Icons.svg#${isBrandOpen ? "chevron-Active" : "chevron -Default"}`} />
                 </svg>
 
                 {isBrandOpen && (
                   <ul className={css.optionsList}>
-                    {brands.map((brand) => (
-                      <li
-                        key={brand}
-                        className={css.option}
-                        onClick={() => {
-                          setFieldValue("brand", brand);
-                          setIsBrandOpen(false);
-                        }}
-                      >
-                        {brand}
+                    {brands.map((b) => (
+                      <li key={b} className={css.option} onClick={() => setFieldValue("brand", b)}>
+                        {b}
                       </li>
                     ))}
                   </ul>
@@ -135,32 +99,17 @@ export default function FiltersBar() {
                   setIsBrandOpen(false);
                 }}
               >
-                <span
-                  className={values.price ? css.selectedText : css.placeholder}
-                >
+                <span className={values.price ? css.selectedText : css.placeholder}>
                   {values.price ? `To ${values.price}$` : "Choose a price"}
                 </span>
                 <svg className={css.icon} width="16" height="16">
-                  <use
-                    href={
-                      isPriceOpen
-                        ? "/Icons.svg#chevron-Active"
-                        : "/Icons.svg#chevron-Default"
-                    }
-                  />
+                  <use href={`/Icons.svg#${isPriceOpen ? "chevron-Active" : "chevron -Default"}`} />
                 </svg>
 
                 {isPriceOpen && (
                   <ul className={css.optionsList}>
                     {priceOptions.map((p) => (
-                      <li
-                        key={p}
-                        className={css.option}
-                        onClick={() => {
-                          setFieldValue("price", p.toString());
-                          setIsPriceOpen(false);
-                        }}
-                      >
+                      <li key={p} className={css.option} onClick={() => setFieldValue("price", p.toString())}>
                         {p}
                       </li>
                     ))}
@@ -171,24 +120,15 @@ export default function FiltersBar() {
 
             <div className={css.field}>
               <p className={css.label}>Car mileage / km</p>
-              <div
-                className={`${css.mileageGroup} ${errors.maxMileage && touched.maxMileage ? css.errorBorder : ""}`}
-              >
+              <div className={`${css.mileageGroup} ${errors.maxMileage && touched.maxMileage ? css.errorBorder : ""}`}>
                 <div className={css.inputBox}>
                   <span className={css.prefix}>From</span>
                   <Field
                     name="minMileage"
                     className={css.input}
-                    value={
-                      values.minMileage
-                        ? formatMileage(Number(values.minMileage))
-                        : ""
-                    }
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      setFieldValue(
-                        "minMileage",
-                        e.target.value.replace(/\D/g, ""),
-                      )
+                    value={values.minMileage ? formatMileage(Number(values.minMileage)) : ""}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => 
+                      setFieldValue("minMileage", e.target.value.replace(/\D/g, ""))
                     }
                   />
                 </div>
@@ -197,37 +137,28 @@ export default function FiltersBar() {
                   <Field
                     name="maxMileage"
                     className={css.input}
-                    value={
-                      values.maxMileage
-                        ? formatMileage(Number(values.maxMileage))
-                        : ""
-                    }
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      setFieldValue(
-                        "maxMileage",
-                        e.target.value.replace(/\D/g, ""),
-                      )
+                    value={values.maxMileage ? formatMileage(Number(values.maxMileage)) : ""}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => 
+                      setFieldValue("maxMileage", e.target.value.replace(/\D/g, ""))
                     }
                   />
                 </div>
               </div>
-              {errors.maxMileage && touched.maxMileage && (
-                <span className={css.errorText}>{errors.maxMileage}</span>
-              )}
+              {errors.maxMileage && touched.maxMileage && <span className={css.errorText}>{errors.maxMileage}</span>}
             </div>
 
             <div className={css.btnGroup}>
-              <button type="submit" className={css.searchBtn}>
-                Search
-              </button>
-              <button
-                type="button"
-                className={css.resetBtn}
-                onClick={handleReset}
-              >
-                Reset
-              </button>
-            </div>
+  <button type="submit" className={css.searchBtn}>
+    Search
+  </button>
+  <button 
+    type="button" 
+    onClick={handleReset} 
+    className={css.searchBtn}
+  >
+    Reset
+  </button>
+</div>
           </Form>
         );
       }}

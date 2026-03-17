@@ -23,7 +23,7 @@
 
 .customSelect {
   position: relative;
-  height: 44px;
+  height: 48px;
   background-color: var(--inputs);
   border-radius: 14px;
   padding: 0 18px;
@@ -40,7 +40,7 @@
 }
 
 .brandWidth {
-  width: 204px;
+  width: 224px;
 }
 
 .priceWidth {
@@ -54,10 +54,14 @@
   font-weight: 500;
 }
 
+.placeholder {
+  opacity: 0.8;
+}
+
 .icon {
   fill: none;
   stroke: var(--main);
-  transition: transform 250ms ease;
+  transition: all 250ms ease;
 }
 
 .optionsList {
@@ -67,9 +71,9 @@
   width: 100%;
   max-height: 272px;
   background: var(--white);
-  border: 1px solid var(--inputs);
-  border-radius: 12px;
-  padding: 14px 0 14px 18px;
+  border: 1px solid rgba(18, 20, 23, 0.05);
+  border-radius: 14px;
+  padding: 14px 18px;
   box-shadow: 0 4px 36px 0 rgba(0, 0, 0, 0.02);
   overflow-y: auto;
   z-index: 100;
@@ -90,7 +94,7 @@
 .option {
   padding: 4px 0;
   font-size: 16px;
-  color: var(--gray);
+  color: rgba(18, 20, 23, 0.2);
   cursor: pointer;
   transition: color 250ms;
 }
@@ -101,17 +105,17 @@
 
 .mileageGroup {
   display: flex;
-  height: 44px;
-  border-radius: 12px;
+  height: 48px;
+  border-radius: 14px;
   overflow: hidden;
+  background-color: var(--inputs);
 }
 
 .mileageGroup:focus-within {
-  border: 1px solid var(--button);
+  outline: 1px solid var(--button);
 }
 
 .inputBox {
-  background-color: var(--inputs);
   width: 160px;
   display: flex;
   align-items: center;
@@ -124,11 +128,10 @@
 }
 
 .prefix {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--main);
   white-space: nowrap;
-  pointer-events: none;
 }
 
 .input {
@@ -137,7 +140,7 @@
   border: none;
   background: transparent;
   padding: 0;
-  font-size: 16px;
+  font-size: 18px;
   color: var(--main);
   outline: none;
 }
@@ -150,27 +153,35 @@
   left: 0;
   margin-top: 4px;
 }
+
 .errorBorder {
-  border: 1px solid #f44336;
+  outline: 1px solid #f44336;
 }
 
 .btnGroup {
   display: flex;
-  gap: 18px;
+  align-items: center;
+  gap: 16px;
 }
-.searchBtn,
-.resetBtn {
-  height: 44px;
+
+.searchBtn {
+  height: 48px;
   padding: 0 44px;
   background-color: var(--button);
   color: var(--white);
+  border: none;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 16px;
-  transition: background-color 250ms;
+  font-size: 14px;
+  line-height: 1.43;
+  transition: background-color 250ms ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
-.searchBtn:hover,
-.resetBtn:hover {
+.searchBtn:hover {
   background-color: var(--button-hover);
 }
