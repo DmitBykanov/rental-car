@@ -61,27 +61,18 @@ export default function FiltersBar() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       enableReinitialize
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(values) => {
         setFilters(values);
         resetSearch();
         loadCars();
-        setFilters({
-          brand: "",
-          price: "",
-          minMileage: "",
-          maxMileage: "",
-        });
-
-        resetForm();
       }}
     >
       {({ values, setFieldValue, errors, touched }) => (
         <Form className={css.form}>
-          {/* Car brand */}
           <div className={css.field} ref={brandRef}>
             <p className={css.label}>Car brand</p>
             <div
-              className={`${css.customSelect} ${css.brandWidth}`}
+              className={`${css.customSelect} ${css.brandWidth} ${isBrandOpen ? css.focus : ""}`}
               onClick={() => {
                 setIsBrandOpen(!isBrandOpen);
                 setIsPriceOpen(false);
@@ -124,7 +115,7 @@ export default function FiltersBar() {
           <div className={css.field} ref={priceRef}>
             <p className={css.label}>Price/ 1 hour</p>
             <div
-              className={`${css.customSelect} ${css.priceWidth}`}
+              className={`${css.customSelect} ${css.priceWidth} ${isPriceOpen ? css.focus : ""}`}
               onClick={() => {
                 setIsPriceOpen(!isPriceOpen);
                 setIsBrandOpen(false);

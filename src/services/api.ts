@@ -17,6 +17,8 @@ interface FetchCarsParams {
 export interface CarsResponse {
   cars: Car[];
   total: number;
+  page: number;
+  totalPages: number;
 }
 export const fetchBrands = async (): Promise<string[]> => {
   const { data }: AxiosResponse<string[]> =
@@ -24,22 +26,18 @@ export const fetchBrands = async (): Promise<string[]> => {
   return data;
 };
 
-export const fetchCars = async ({
-  page = 1,
-  limit = 12,
-  brand,
-  rentalPrice,
-  minMileage,
-  maxMileage,
-}: FetchCarsParams): Promise<CarsResponse> => {
-  const { data }: AxiosResponse<CarsResponse> = await instance.get("/cars", {
+export const fetchCars = async (
+  params: FetchCarsParams,
+): Promise<CarsResponse> => {
+  const { data } = await instance.get<CarsResponse>("/cars", {
     params: {
-      page,
-      limit,
-      brand: brand || undefined,
-      rentalPrice: rentalPrice || undefined,
-      minMileage: minMileage || undefined,
-      maxMileage: maxMileage || undefined,
+      page: 1,
+      limit: 12,
+      ...params,
+      brand: params.brand || undefined,
+      rentalPrice: params.rentalPrice || undefined,
+      minMileage: params.minMileage || undefined,
+      maxMileage: params.maxMileage || undefined,
     },
   });
   return data;
